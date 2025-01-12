@@ -5,7 +5,7 @@ const modal=document.querySelector(".modal");
 
 async function fetchPokemonsInOrder() {
 
-    for( i=1 ; i<=999; i++){
+    for( i=1 ; i<=200; i++){
 
         //CONSUMIR POKEMON POR ID
         const response = await fetch(url + i);
@@ -61,15 +61,24 @@ async function fetchPokemonsInOrder() {
 
             //CLICK A DIV DEL POKEMON
             divPokemon.addEventListener("click",()=>{
-                modal.style.display="block";
+                modal.style.display="flex";
 
-          
+                let information_Poke_Api=[];
+                let rsptaInfo="";
+
+                for(let rec=0; rec<information["flavor_text_entries"].length; rec++){
+                    if(information["flavor_text_entries"][rec].language.name==="es"){
+                        information_Poke_Api.push(information["flavor_text_entries"][rec]["flavor_text"]);
+                        rsptaInfo=information_Poke_Api.join(" ");
+                    }
+                }
+
+
+
 
                 let infoPoke=document.getElementById("info_poke");
                 infoPoke.innerHTML=`
             <div class="pokemons_modal">
-
-            <!-- <h4 class="poke-numero-id ${i}">${numId}</h4>-->
 
                 <div class="poke_imagen_modal">
                     <img src= ${imagenUrl} alt="pokemon">
@@ -96,8 +105,8 @@ async function fetchPokemonsInOrder() {
                     <div class="poke_resenia">
                     <h6 class="resenia">Datos Importantes</h6>
 
-                    <p class="detalle_resenia">${information["flavor_text_entries"][79]["flavor_text"]}</br> </br>${information["flavor_text_entries"][89]["flavor_text"]}</p>
-
+                   
+                    <p class="detalle_resenia">${rsptaInfo}</p>
                     <p class="detalle_resenia estrella">
 
                     <span>&#9733</span>
