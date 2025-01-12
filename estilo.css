@@ -160,6 +160,7 @@ main{
     justify-content: center;
     padding-inline:200px;
     padding-block: 50px;
+    background-color: #dbd7d7;
 }
 
 .contenedor{
@@ -259,6 +260,233 @@ p{
 
 .pokemons:hover{
     background-color: #d18abc;
+}
+
+/*MODAL*/
+.modal{
+   display: none;
+   position: fixed;
+   width: 100%;
+   height: 100vh;
+   top: 0;
+   z-index: 100;
+   padding: 70px;
+}
+
+.close{
+    font-size: 2rem;
+    font-weight: bold;
+    color:rgb(238, 238, 238);
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+.close:hover{
+    color:#d365bb;
+}
+
+/*CUERPO DEL MODAL*/
+.modal{
+    background-image: url("https://st3.depositphotos.com/26065846/37668/i/450/depositphotos_376686932-stock-photo-seamless-geometric-ornamental-pattern-abstract.jpg");
+    background-size: cover;
+}
+
+#info_poke{
+    display: flex;
+    align-items: center;
+}
+.pokemons_modal{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    
+}
+
+.poke_imagen_modal{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+.poke_info_modal{
+    flex: 1;
+    
+}
+
+.poke_info_modal .poke-id-modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.poke-id-modal h6{
+    color: #fff;
+    font-size: 3rem;
+    text-transform: uppercase;
+    text-align: center;
+}
+.bg-id{
+    font-size:1.5rem;
+    background-color: transparent;
+    color: #f3f1f1;
+}
+
+.poke-typs-modal{
+    display: flex;
+    justify-content: center;
+    padding-block: 20px;
+    gap: 20px;
+}
+.poke-info-datos{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.poke_resenia{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding: 20px 50px;
+}
+.poke_resenia h6{
+    font-size: 2rem;
+    color: #eb85d4;
+    background-color: transparent;
+}
+.detalle_resenia{
+    text-align: justify;
+    font-size: 0.9rem;
+    color: rgb(247, 247, 247);
+    background-color: transparent;
+}
+.poke-info-datos span{
+    text-decoration: underline;
+}
+.estrella{
+    font-size: 2rem;
+    color: rgb(202, 176, 32);
+  
+}
+
+span:hover{
+    color: rgb(51, 206, 172);
+    cursor: pointer;
+}
+
+@media(max-width:987px){
+
+    .modal{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .info_poke{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    .pokemons_modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    }
+    .poke_imagen_modal{
+    flex: 1;
+    }
+
+    .poke_imagen_modal img{
+    width: 300px;
+    height: 300px;
+    }
+
+    .poke_info_modal{
+    flex: 2;
+    width: 50%;
+    }
+
+    .poke-id-modal h6{
+    font-size: 2.5rem;
+    }
+
+    .poke-id-modal .bg-id{
+    font-size: 0.9rem;
+    }
+
+    .poke_resenia .resenia{
+    font-size: 1.5rem;
+    }
+}
+
+@media(max-width:768px){
+    .pokemons_modal{
+        flex-direction: column;
+    }
+    .poke-id-modal h6{
+        font-size: 2rem;
+    }
+
+    .poke_imagen_modal{
+        flex: 1;
+        }
+    .poke_imagen_modal img{
+        width: 250px;
+        height: 250px;
+        }
+    .poke_info_modal .container_div_modal{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        gap: 10px;
+    }
+    .poke-info-datos{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    .poke-info-datos > p{
+        font-size: 0.7rem;
+    }
+    .poke_resenia{
+        display: flex;
+        padding: 0px;
+        text-align: center;
+    }
+    .poke_resenia span{
+        text-align: center;
+    }
+    .poke_resenia .resenia{
+        font-size: 0.9rem;
+    }
+    .poke_resenia .detalle_resenia{
+        font-size: 0.5rem;
+        padding: 0;
+    }
+}
+
+@media(max-width:390px){
+    .poke_imagen_modal{
+        flex: 1;
+        }
+    .poke_imagen_modal img{
+        width: 180px;
+        height: 180px;
+        }
+    .poke_resenia{
+        padding-block: 10px;
+    }    
+    .poke_resenia .detalle_resenia {
+        font-size: 0.6rem;
+      
+        text-align: left;
+    }
+    .container_div_modal{
+        flex-wrap: wrap;
+    }
 }
 
 /*RESPONSIVE*/
