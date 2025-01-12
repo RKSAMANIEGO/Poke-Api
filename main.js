@@ -5,7 +5,7 @@ const modal=document.querySelector(".modal");
 
 async function fetchPokemonsInOrder() {
 
-    for( i=1 ; i<=10; i++){
+    for( i=1 ; i<=999; i++){
 
         //CONSUMIR POKEMON POR ID
         const response = await fetch(url + i);
