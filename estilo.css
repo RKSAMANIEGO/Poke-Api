@@ -264,7 +264,8 @@ p{
 
 /*MODAL*/
 .modal{
-   display: none;
+   
+   visibility: hidden;
    position: fixed;
    width: 100%;
    height: 100vh;

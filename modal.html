@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+    <div class="modal">
+        <div id="info_poke" >
+
+        </div>
+        <label class="close">&#215</label>
+    </div>
+
+<script >
+    const doc=document.querySelector(".modal");
+    doc.style.visibility="visible";
+
+    const resultado=document.getElementById("info_poke");
+    const data= localStorage.getItem("info");
+
+    const close=document.querySelector(".close");
+
+    close.addEventListener("click",()=>{
+        window.location.href="index.html";
+        localStorage.removeItem("info");
+    });
+    resultado.innerHTML=`${data}`;
+    console.log(data);
+</script>
+</body>
+</html>
