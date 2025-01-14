@@ -4,7 +4,11 @@ const btnEvent = document.querySelectorAll("button");
 const modal = document.querySelector(".modal");
 
 async function fetchPokemonsInOrder() {
+
+ //   divContenedor.textContent=" ";
   for (i = 1; i <= 500; i++) {
+
+    
     //CONSUMIR POKEMON POR ID
     const response = await fetch(url + i);
     const data = await response.json();
@@ -66,10 +70,12 @@ async function fetchPokemonsInOrder() {
     divContenedor.appendChild(divPokemon);
 
     //CLICK A DIV DEL POKEMON
-    divPokemon.addEventListener("click", () => {
+    divPokemon.addEventListener("click", (event) => {
+
+        event.preventDefault();
       modal.style.visibility = "visible";
 
-      let information_Poke_Api = [];
+      let information_Poke_Api = new Set();
       let rsptaInfo = "";
 
       for (
@@ -78,10 +84,11 @@ async function fetchPokemonsInOrder() {
         rec++
       ) {
         if (information["flavor_text_entries"][rec].language.name === "es") {
-          information_Poke_Api.push(
+          information_Poke_Api.add(
             information["flavor_text_entries"][rec]["flavor_text"]
           );
-          rsptaInfo = information_Poke_Api.join(" ");
+          let infoConvertArray =[...information_Poke_Api];
+          rsptaInfo = infoConvertArray.join(" ");
         }
       }
 
@@ -144,9 +151,13 @@ let arrayData = [];
 btnEvent.forEach((btn) =>
   btn.addEventListener("click", (event) => {
     event.preventDefault();
+
     const botonId = event.currentTarget.id;
+
     divContenedor.innerHTML = "";
+
     console.log(botonId);
+
     arrayData = [];
     let listPromise = [];
 
@@ -163,6 +174,7 @@ btnEvent.forEach((btn) =>
               //DATOS
               arrayData.push(data);
             }
+       
           })
       );
     }
@@ -245,15 +257,15 @@ async function dataSearch(arrayData) {
     divPokemon.addEventListener("click", () => {
 
         
-      let information_Poke_Api = [];
+      let information_Poke_Api = new Set();
       let rsptaInfo = "";
 
       for ( let rec = 0; rec < information["flavor_text_entries"].length; rec++) {
         if (information["flavor_text_entries"][rec].language.name === "es") {
-          information_Poke_Api.push(
+          information_Poke_Api.add(
             information["flavor_text_entries"][rec]["flavor_text"]
           );
-          rsptaInfo = information_Poke_Api.join(" ");
+          rsptaInfo = [...information_Poke_Api].join(" ");
         }
       }
 
@@ -310,5 +322,14 @@ async function dataSearch(arrayData) {
 const close = document.querySelector(".close");
 
 close.addEventListener("click", () => {
-  modal.style.visibility = "hidden";
+modal.style.visibility = "hidden";
+});
+
+const all = document.getElementById("all");
+
+all.addEventListener("click",()=>{
+    divContenedor.innerHTML="";
+    window.location.reload();
+    fetchPokemonsInOrder();
+
 });
