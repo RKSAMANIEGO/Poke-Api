@@ -2,22 +2,23 @@ const url = "https://pokeapi.co/api/v2/pokemon/";
 const divContenedor = document.getElementById("main-contenedor");
 const btnEvent = document.querySelectorAll("button");
 const modal = document.querySelector(".modal");
+let ventanaHija=null;
+
+
+
+//********************FUNCION PARA LISTAR LOS POKEMONES*************************//
 
 async function fetchPokemonsInOrder() {
 
- //   divContenedor.textContent=" ";
   for (i = 1; i <= 500; i++) {
 
-    
+
     //CONSUMIR POKEMON POR ID
     const response = await fetch(url + i);
     const data = await response.json();
 
     //CONSUMIR POKEMON POR SPECIE
-
-    const responseSpecie = await fetch(
-      `https://pokeapi.co/api/v2/pokemon-species/${i}/`
-    );
+    const responseSpecie = await fetch( `https://pokeapi.co/api/v2/pokemon-species/${i}/`);
     const information = await responseSpecie.json();
 
     //ACCEDER AL TIPO DEL POKEMON
@@ -72,26 +73,24 @@ async function fetchPokemonsInOrder() {
     //CLICK A DIV DEL POKEMON
     divPokemon.addEventListener("click", (event) => {
 
-        event.preventDefault();
+      event.preventDefault();
+      //activando modal
       modal.style.visibility = "visible";
 
+      //agregando info del pokemon
       let information_Poke_Api = new Set();
       let rsptaInfo = "";
 
-      for (
-        let rec = 0;
-        rec < information["flavor_text_entries"].length;
-        rec++
-      ) {
+      //rocorriendo la info del pokemon en varios lenguajes
+      for (let rec = 0; rec < information["flavor_text_entries"].length; rec++) {
         if (information["flavor_text_entries"][rec].language.name === "es") {
-          information_Poke_Api.add(
-            information["flavor_text_entries"][rec]["flavor_text"]
-          );
+          information_Poke_Api.add(  information["flavor_text_entries"][rec]["flavor_text"] );
           let infoConvertArray =[...information_Poke_Api];
           rsptaInfo = infoConvertArray.join(" ");
         }
       }
 
+      //agregando info del pokemon clickeado
       let infoPoke = document.getElementById("info_poke");
       infoPoke.innerHTML = `
             <div class="pokemons_modal">
@@ -121,7 +120,7 @@ async function fetchPokemonsInOrder() {
                     <div class="poke_resenia">
                     <h6 class="resenia">Datos Importantes</h6>
 
-                   
+
                     <p class="detalle_resenia">${rsptaInfo}</p>
                     <p class="detalle_resenia estrella">
 
@@ -130,7 +129,7 @@ async function fetchPokemonsInOrder() {
                     <span>&#9733</span>
                     <span>&#9734</span>
                     <span>&#9734</span>
-            
+
                     </p>
                     </div>
 
@@ -142,16 +141,16 @@ async function fetchPokemonsInOrder() {
   }
 }
 
-//LLAMADA A LA FUNCION
+//**********************************LLAMADA A LA FUNCION**********************************//
 fetchPokemonsInOrder();
-
 let arrayData = [];
 
-//BUSCAR POKEMON
+//*************************************BUSCAR POKEMON**************************************//
 btnEvent.forEach((btn) =>
   btn.addEventListener("click", (event) => {
     event.preventDefault();
 
+    //capturando el id del boton clickeado
     const botonId = event.currentTarget.id;
 
     divContenedor.innerHTML = "";
@@ -161,29 +160,32 @@ btnEvent.forEach((btn) =>
     arrayData = [];
     let listPromise = [];
 
+
     for (let x = 1; x <= 500; x++) {
+      //agregando a una lista todas la promesas que cumple la condicion
+
       listPromise.push(
         fetch(url + x)
           .then((response) => response.json())
           .then((data) => {
-            const listTypes = data.types.map((obj) =>
-              obj.type.name.toLowerCase()
-            );
+              const listTypes = data.types.map((obj) =>obj.type.name.toLowerCase());
 
+            //condicion si coincide con el Id del boton
             if (listTypes.some((tipo) => tipo.includes(botonId))) {
-              //DATOS
               arrayData.push(data);
             }
-       
           })
       );
     }
+
+    //cargando los datos una vez que cargo todas la promesas
     Promise.all(listPromise)
       .then(() => {
         console.log(arrayData.length);
 
-        const rptaOrdenada=arrayData.sort((a,b)=> a.id -b.id);
+        const rptaOrdenada=arrayData.sort((a,b)=> a.id - b.id);
 
+        localStorage.setItem("dataActual",rptaOrdenada);
         console.log(rptaOrdenada);
 
         dataSearch(rptaOrdenada);
@@ -194,6 +196,8 @@ btnEvent.forEach((btn) =>
   })
 );
 
+
+//*********************************FUNCION BUSCAR POKEMON****************************************/
 async function dataSearch(arrayData) {
     divContenedor.innerHTML = "";
 
@@ -229,34 +233,35 @@ async function dataSearch(arrayData) {
 
     //AGREGANDO AL DIV
     divPokemon.innerHTML = `
-         <div class="pokemons">
+        <div class="pokemons">
 
-             <h4 class="poke-numero-id ${i}">${numId}</h4>
-             <div class="poke-imagen">
-                 <img src= ${imagenUrl} alt="pokemon">
-             </div>
+            <h4 class="poke-numero-id ${i}">${numId}</h4>
+            <div class="poke-imagen">
+                <img src= ${imagenUrl} alt="pokemon">
+            </div>
 
-             <div class="poke-id">
-             <p class="id">${"#" + numId}</p>
-             <h5 class="nombre">${data.forms[0].name}</h5>
-             </div>
+            <div class="poke-id">
+            <p class="id">${"#" + numId}</p>
+            <h5 class="nombre">${data.forms[0].name}</h5>
+            </div>
 
-             <div class="poke-typs">
-             ${pokeTipo}
-             </div>
-             <div class="poke-info">
-                 <p>${data.height + "CM"}</p>
-                 <p>${data.weight + "MG"}</p>
-             </div>
-         </div>
+            <div class="poke-typs">
+            ${pokeTipo}
+            </div>
+            <div class="poke-info">
+                <p>${data.height + "CM"}</p>
+                <p>${data.weight + "MG"}</p>
+            </div>
+        </div>
 
-         `;
+        `;
     divContenedor.appendChild(divPokemon);
+
+  
 
     //CLICK A DIV DEL POKEMON
     divPokemon.addEventListener("click", () => {
 
-        
       let information_Poke_Api = new Set();
       let rsptaInfo = "";
 
@@ -312,21 +317,27 @@ async function dataSearch(arrayData) {
         </div>
 
         `;
+
         localStorage.setItem("info",informacion);
-        window.location.href="modal.html";
+        ventanaHija=window.open("modal.html","index.html");
     });
   }
+
+
 }
 
-//MODAL
+
+
+
+// CERRAR MODAL PRINCIPAL
 const close = document.querySelector(".close");
 
 close.addEventListener("click", () => {
 modal.style.visibility = "hidden";
 });
 
+//BOTON TODOS
 const all = document.getElementById("all");
-
 all.addEventListener("click",()=>{
     divContenedor.innerHTML="";
     window.location.reload();

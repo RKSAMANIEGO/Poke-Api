@@ -17,20 +17,30 @@
     </div>
 
 <script >
+
+    //variables
     const doc=document.querySelector(".modal");
+    const resultado=document.getElementById("info_poke");
+    const close=document.querySelector(".close");
+ 
+
+    //activando modal
     doc.style.visibility="visible";
 
-    const resultado=document.getElementById("info_poke");
+    //activando obteniendo la info de la pestaña anteror
     const data= localStorage.getItem("info");
+    const pageActual=localStorage.getItem("dataActual");
 
-    const close=document.querySelector(".close");
-
+    //capturando el clikc en cerrar modal
     close.addEventListener("click",()=>{
-        window.location.href="index.html";
         localStorage.removeItem("info");
+        window.close();
     });
+
+    //cargando data al modal
     resultado.innerHTML=`${data}`;
     console.log(data);
+    console.log(pageActual);
 </script>
 </body>
 </html>
