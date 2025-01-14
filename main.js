@@ -4,7 +4,7 @@ const btnEvent = document.querySelectorAll("button");
 const modal = document.querySelector(".modal");
 
 async function fetchPokemonsInOrder() {
-  for (i = 1; i <= 200; i++) {
+  for (i = 1; i <= 500; i++) {
     //CONSUMIR POKEMON POR ID
     const response = await fetch(url + i);
     const data = await response.json();
@@ -150,7 +150,7 @@ btnEvent.forEach((btn) =>
     arrayData = [];
     let listPromise = [];
 
-    for (let x = 1; x <= 200; x++) {
+    for (let x = 1; x <= 500; x++) {
       listPromise.push(
         fetch(url + x)
           .then((response) => response.json())
@@ -169,7 +169,12 @@ btnEvent.forEach((btn) =>
     Promise.all(listPromise)
       .then(() => {
         console.log(arrayData.length);
-        dataSearch(arrayData);
+
+        const rptaOrdenada=arrayData.sort((a,b)=> a.id -b.id);
+
+        console.log(rptaOrdenada);
+
+        dataSearch(rptaOrdenada);
       })
       .catch((error) => {
         console.error(error);
@@ -178,7 +183,7 @@ btnEvent.forEach((btn) =>
 );
 
 async function dataSearch(arrayData) {
-    divContenedor.innerHTML = ""; 
+    divContenedor.innerHTML = "";
 
   for (let i = 0; i < arrayData.length; i++) {
     //CONSUMIR POKEMON POR SPECIE
@@ -243,11 +248,7 @@ async function dataSearch(arrayData) {
       let information_Poke_Api = [];
       let rsptaInfo = "";
 
-      for (
-        let rec = 0;
-        rec < information["flavor_text_entries"].length;
-        rec++
-      ) {
+      for ( let rec = 0; rec < information["flavor_text_entries"].length; rec++) {
         if (information["flavor_text_entries"][rec].language.name === "es") {
           information_Poke_Api.push(
             information["flavor_text_entries"][rec]["flavor_text"]
@@ -301,73 +302,6 @@ async function dataSearch(arrayData) {
         `;
         localStorage.setItem("info",informacion);
         window.location.href="modal.html";
-       // mostrarModal(data, information, imagenUrl, numId);
-        /*
-      alert("seleccionado");
-      console.log(divPokemon);
-
-      let information_Poke_Api = [];
-      let rsptaInfo = "";
-
-      for (
-        let rec = 0;
-        rec < information["flavor_text_entries"].length;
-        rec++
-      ) {
-        if (information["flavor_text_entries"][rec].language.name === "es") {
-          information_Poke_Api.push(
-            information["flavor_text_entries"][rec]["flavor_text"]
-          );
-          rsptaInfo = information_Poke_Api.join(" ");
-        }
-      }
-
-      modal.innerHTML = `
-        <div class="pokemons_modal">
-
-            <div class="poke_imagen_modal">
-                <img src= ${imagenUrl} alt="pokemon">
-            </div>
-
-            <div class="poke_info_modal">
-
-                <div class="poke-id-modal">
-                    <p class="bg-id">&#3356 ${numId}</p>
-                    <h6 class="bg-nombre">${data.forms[0].name}</h6>
-                </div>
-
-                <div class="container_div_modal">
-                <div class="poke-typs-modal">
-                    ${pokeTipo}
-                </div>
-
-                <div class="poke-info-datos">
-                    <p>Tamaño: ${data.height + "CM"}</p>
-                    <p>Peso: ${data.weight + "MG"}</p>
-                </div>
-                </div>
-
-                <div class="poke_resenia">
-                <h6 class="resenia">Datos Importantes</h6>
-
-                <p class="detalle_resenia">${rsptaInfo}</p>
-                <p class="detalle_resenia estrella">
-
-                <span>&#9733</span>
-                <span>&#9733</span>
-                <span>&#9733</span>
-                <span>&#9734</span>
-                <span>&#9734</span>
-                </p>
-                </div>
-
-            </div>
-        </div>
-
-        `;
-
-      modal.style.visibility = "visible";
-      */
     });
   }
 }
